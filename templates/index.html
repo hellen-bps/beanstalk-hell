@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Elastic Beanstalk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full text-center">
+        <h1 class="text-2xl font-bold text-green-600 mb-2">🚀 Sucesso!</h1>
+        <p class="text-gray-600 mb-6">Sua aplicação Python/Flask está rodando com sucesso no <strong>AWS Elastic Beanstalk</strong>.</p>
+        
+        <div class="border-t border-gray-200 pt-4">
+            <button id="btn-teste" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-200">
+                Testar API do Servidor
+            </button>
+            
+            <div id="resultado" class="mt-4 p-3 bg-gray-50 rounded text-left text-sm font-mono text-gray-700 hidden">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btn-teste').addEventListener('click', async () => {
+            const campoResultado = document.getElementById('resultado');
+            campoResultado.classList.remove('hidden');
+            campoResultado.innerText = 'Carregando...';
+
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+                campoResultado.innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                campoResultado.innerText = 'Erro ao conectar com a API: ' + error;
+            }
+        });
+    </script>
+</body>
+</html>
